@@ -14,5 +14,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build ./go-app/ --tag my-image-name:$(date +%s)
+    - name: Build the Go App Docker image
+      run: docker build ./go-app/ --tag go-app:$(date +%s)
+    - name: Build the Node App Docker image
+      run: docker build ./nodejs-app/ --tag node-app:$(date +%s)
