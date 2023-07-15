@@ -29,14 +29,14 @@ jobs:
       - run: npm test
 
 
-  build_local:
-    needs: test
-    runs-on: self-hosted
-    defaults:
-      run:
-        working-directory: ./nodejs-app
-    steps:
-    - uses: actions/checkout@v3
+  # build_local:
+  #   needs: test
+  #   runs-on: self-hosted
+  #   defaults:
+  #     run:
+  #       working-directory: ./nodejs-app
+  #   steps:
+  #   - uses: actions/checkout@v3
       
-    - name: Build the Node App Docker image
-      run: docker build . --tag node-app:$(date +%s)
+  #   - name: Build the Node App Docker image
+  #     run: docker build . --tag node-app:$(date +%s)
