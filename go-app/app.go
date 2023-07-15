@@ -2,44 +2,51 @@ package main
 
 import (
 	"fmt"
-	"net/http"
 	"log"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 )
 
 type User struct {
-	ID   		string `json:"id"`
-	Name 		string `json:"name"`
+	ID          string `json:"id"`
+	Name        string `json:"name"`
 	Description string `json:"description"`
- }
+}
 
- func GetUserByID(id string) (User, error) {
+func GetUserByID(id string) (User, error) {
 	// TODO : lookup in db
 	return User{
-	   ID:   id,
-	   Name: "Doe",
-	   Description: "John",
+		ID:          id,
+		Name:        "Doe",
+		Description: "John",
 	}, nil
- }
+}
 
- func GetUserHandler(c *gin.Context) {
+func GetUserHandler(c *gin.Context) {
 	// retrieve user from db
 	id := c.Query("id")
 	user, err := GetUserByID(id)
 	if err != nil {
-	   c.JSON(http.StatusInternalServerError, gin.H{"error": "impossible to retrieve user"})
-	   return
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "impossible to retrieve user"})
+		return
 	}
 	c.JSON(http.StatusOK, user)
- }
+}
 
- func main() {
+func GetDefaultHandler(c *gin.Context) {
+	c.JSON(http.StatusOK, "Hello World!")
+}
+
+func main() {
 	r := gin.Default()
+	g := r.Group("/apis/goapp")
 	// define the routes
-	r.GET("/user", GetUserHandler)
+	g.GET("/", GetDefaultHandler)
+	g.GET("/user", GetUserHandler)
 	err := r.Run(":8083")
 	if err != nil {
-	   log.Fatalf("impossible to start server: %s", err)
+		log.Fatalf("impossible to start server: %s", err)
 	}
 	fmt.Println("Running")
- }
+}

@@ -69,3 +69,12 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  deploy_local:
+    needs: push_to_registry_node
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Deploy to local k8s cluster
+      run: k3s kubectl apply -f deploy.yaml
