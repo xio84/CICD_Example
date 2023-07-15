@@ -17,7 +17,7 @@ on:
 
 jobs:
   push_to_registry_go:
-    name: Push Docker image to Docker Hub
+    name: Push Go image to Docker Hub
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
@@ -44,7 +44,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
   
   push_to_registry_node:
-    name: Push Docker image to Docker Hub
+    name: Push Nodejs image to Docker Hub
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
@@ -69,3 +69,12 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+  deploy_local:
+    needs: push_to_registry_node
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Deploy to local k8s cluster
+      run: k3s kubectl apply -f deploy.yaml
