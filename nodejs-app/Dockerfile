@@ -14,4 +14,4 @@ RUN npm ci
 EXPOSE 3000
 
 # Set the command to run the application
-CMD ["node", "app.js"]
+CMD ["npm", "run"]
