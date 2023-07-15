@@ -40,8 +40,10 @@ func GetDefaultHandler(c *gin.Context) {
 
 func main() {
 	r := gin.Default()
+	r.GET("/", GetDefaultHandler)
 	g := r.Group("/apis/goapp")
 	// define the routes
+	g.GET("", GetDefaultHandler)
 	g.GET("/", GetDefaultHandler)
 	g.GET("/user", GetUserHandler)
 	err := r.Run(":8083")

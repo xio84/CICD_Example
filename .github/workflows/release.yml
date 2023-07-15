@@ -78,3 +78,9 @@ jobs:
 
     - name: Deploy to local k8s cluster
       run: k3s kubectl apply -f deploy.yaml
+
+    - name: Reset go deployment
+      run: k3s kubectl rollout restart deployment/go-app
+
+    - name: Reset node deployment
+      run: k3s kubectl rollout restart deployment/node-app
