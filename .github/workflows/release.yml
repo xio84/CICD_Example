@@ -19,9 +19,6 @@ jobs:
   push_to_registry_go:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./go-app
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
@@ -41,6 +38,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
         with:
+          context: ./go-app
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
@@ -48,9 +46,6 @@ jobs:
   push_to_registry_node:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./node-app
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
@@ -70,6 +65,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
         with:
+          context: ./nodejs-app
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
