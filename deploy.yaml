@@ -1,0 +1,107 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-app
+  labels:
+    app: go-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go-app
+  template:
+    metadata:
+      labels:
+        app: go-app
+    spec:
+      containers:
+      - name: go-app
+        image: oksidiantafly/go-app:release
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8083
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: go-app
+  name: go-app
+  namespace: default
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 8083
+  selector:
+    app: go-app
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-app
+  labels:
+    app: node-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: node-app
+  template:
+    metadata:
+      labels:
+        app: node-app
+    spec:
+      containers:
+      - name: node-app
+        image: oksidiantafly/node-app:release
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: node-app
+  name: node-app
+  namespace: default
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 3000
+  selector:
+    app: node-app
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: example-apps-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: oksidian.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: go-app
+                port:
+                  number: 80
+          - path: /apis/goapp
+            pathType: Prefix
+            backend:
+              service:
+                name: go-app
+                port:
+                  number: 80
+          - path: /apis/nodeapp
+            pathType: Prefix
+            backend:
+              service:
+                name: node-app
+                port:
+                  number: 80
