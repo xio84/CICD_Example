@@ -51,7 +51,7 @@ func GetUserHandler(c *gin.Context) {
 }
 
 func GetDefaultHandler(c *gin.Context) {
-	c.JSON(http.StatusOK, "Hello World!")
+	c.String(http.StatusOK, "OK")
 }
 
 func PostUserHandler(c *gin.Context) {
@@ -69,10 +69,7 @@ func PostUserHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, parsedUser)
 }
 
-func main() {
-	//run database
-	configs.ConnectDB()
-
+func SetupRouter() *gin.Engine {
 	r := gin.Default()
 	r.GET("/", GetDefaultHandler)
 	g := r.Group("/apis/goapp")
@@ -81,6 +78,14 @@ func main() {
 	g.GET("/", GetDefaultHandler)
 	g.GET("/user", GetUserHandler)
 	g.POST("/user", PostUserHandler)
+	return r
+}
+
+func main() {
+	//run database
+	configs.ConnectDB()
+
+	r := SetupRouter()
 	err := r.Run(":8083")
 	if err != nil {
 		log.Fatalf("impossible to start server: %s", err)
