@@ -20,6 +20,15 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 8083
+        env:
+        - name: MONGODB_USERNAME
+          value: "user"
+        - name: MONGODB_PASSWORD
+          value: "password"
+        - name: MONGODB_URL
+          value: "mongodb"
+        - name: MONGODB_DATABASE
+          value: "main"
 ---
 apiVersion: v1
 kind: Service
@@ -58,6 +67,15 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
+        env:
+        - name: MONGODB_USERNAME
+          value: "user"
+        - name: MONGODB_PASSWORD
+          value: "password"
+        - name: MONGODB_URL
+          value: "mongodb"
+        - name: MONGODB_DATABASE
+          value: "main"
 ---
 apiVersion: v1
 kind: Service
