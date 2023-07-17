@@ -7,10 +7,10 @@ on:
     branches: [ "main" ]
 
 env:
-  MONGODB_USERNAME: supercharge
-  MONGODB_PASSWORD: secret
-  MONGODB_URL: localhost
-  MONGODB_DATABASE: supercharge
+  - MONGODB_USERNAME: supercharge
+  - MONGODB_PASSWORD: secret
+  - MONGODB_URL: localhost
+  - MONGODB_DATABASE: supercharge
 
 jobs:
   test:
@@ -26,6 +26,8 @@ jobs:
     
     steps:
       - uses: actions/checkout@v3
+
+      - run: env
 
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.8.0
