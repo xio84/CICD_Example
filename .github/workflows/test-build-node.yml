@@ -6,6 +6,13 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  MONGODB_USERNAME: supercharge
+  MONGODB_PASSWORD: secret
+  MONGODB_URL: localhost
+  MONGODB_DATABASE: supercharge
+  MONGODB_AUTH_DATABASE: admin
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -37,12 +44,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
       - run: npm run build --if-present
-      - run: MONGODB_USERNAME=supercharge MONGODB_PASSWORD=secret MONGODB_URL=localhost MONGODB_DATABASE=supercharge npm run test
-        env:
-          MONGODB_USERNAME: supercharge
-          MONGODB_PASSWORD: secret
-          MONGODB_URL: localhost
-          MONGODB_DATABASE: supercharge
+      - run: npm run test
 
 
   # build_local:

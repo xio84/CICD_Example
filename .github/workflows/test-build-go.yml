@@ -6,6 +6,13 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  MONGODB_USERNAME: supercharge
+  MONGODB_PASSWORD: secret
+  MONGODB_URL: localhost
+  MONGODB_DATABASE: supercharge
+  MONGODB_AUTH_DATABASE: admin
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -34,12 +41,7 @@ jobs:
         run: go build -v ./...
 
       - name: Test
-        run: MONGODB_USERNAME=supercharge MONGODB_PASSWORD=secret MONGODB_URL=localhost MONGODB_DATABASE=supercharge go test -v ./...
-        env:
-          MONGODB_USERNAME: supercharge
-          MONGODB_PASSWORD: secret
-          MONGODB_URL: localhost
-          MONGODB_DATABASE: supercharge
+        run: go test -v ./...
 
 
   # build_local:
