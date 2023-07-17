@@ -102,13 +102,6 @@ spec:
     - host: oksidian.com
       http:
         paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: go-app
-                port:
-                  number: 80
           - path: /apis/goapp
             pathType: Prefix
             backend:
