@@ -6,12 +6,6 @@ on:
   pull_request:
     branches: [ "main" ]
 
-env:
-  MONGODB_USERNAME: supercharge
-  MONGODB_PASSWORD: secret
-  MONGODB_URL: localhost
-  MONGODB_DATABASE: supercharge
-
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -44,6 +38,11 @@ jobs:
       - run: npm ci
       - run: npm run build --if-present
       - run: npm test
+        env:
+          MONGODB_USERNAME: supercharge
+          MONGODB_PASSWORD: secret
+          MONGODB_URL: localhost
+          MONGODB_DATABASE: supercharge
 
 
   # build_local:
