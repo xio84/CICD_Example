@@ -39,6 +39,12 @@ func CreateUser(c *gin.Context, name string, description string) (User, error) {
 	return user, err
 }
 
+func DeleteUser(c *gin.Context, user User) (int64, error) {
+	result, err := userCollection.DeleteOne(c, user)
+	res := result.DeletedCount
+	return res, err
+}
+
 func GetUserHandler(c *gin.Context) {
 	// retrieve user from db
 	id := c.Query("id")
@@ -51,7 +57,7 @@ func GetUserHandler(c *gin.Context) {
 }
 
 func GetDefaultHandler(c *gin.Context) {
-	c.JSON(http.StatusOK, "Hello World!")
+	c.String(http.StatusOK, "OK")
 }
 
 func PostUserHandler(c *gin.Context) {
@@ -69,10 +75,23 @@ func PostUserHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, parsedUser)
 }
 
-func main() {
-	//run database
-	configs.ConnectDB()
+func DeleteUserHandler(c *gin.Context) {
+	// parse user from json
+	id := c.Query("id")
+	user, err := GetUserByID(c, id)
+	deletedUser, err := DeleteUser(c, user)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "impossible to add user"})
+		return
+	}
+	if deletedUser < 1 {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "no such user"})
+		return
+	}
+	c.String(http.StatusOK, "OK")
+}
 
+func SetupRouter() *gin.Engine {
 	r := gin.Default()
 	r.GET("/", GetDefaultHandler)
 	g := r.Group("/apis/goapp")
@@ -81,6 +100,15 @@ func main() {
 	g.GET("/", GetDefaultHandler)
 	g.GET("/user", GetUserHandler)
 	g.POST("/user", PostUserHandler)
+	g.DELETE("/user", DeleteUserHandler)
+	return r
+}
+
+func main() {
+	//run database
+	configs.ConnectDB()
+
+	r := SetupRouter()
 	err := r.Run(":8083")
 	if err != nil {
 		log.Fatalf("impossible to start server: %s", err)
