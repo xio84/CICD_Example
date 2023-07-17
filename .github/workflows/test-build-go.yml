@@ -7,10 +7,10 @@ on:
     branches: [ "main" ]
 
 env:
-  - MONGODB_USERNAME: supercharge
-  - MONGODB_PASSWORD: secret
-  - MONGODB_URL: localhost
-  - MONGODB_DATABASE: supercharge
+  MONGODB_USERNAME: supercharge
+  MONGODB_PASSWORD: secret
+  MONGODB_URL: localhost
+  MONGODB_DATABASE: supercharge
 
 jobs:
   test:
