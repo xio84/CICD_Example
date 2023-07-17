@@ -11,6 +11,12 @@ const final_url = "mongodb://" + user + ":" + pass + "@" + url + "/" + db
 
 if (user && pass && url && db) {
     console.log("Connecting on " + final_url)
+    console.log("mongodb://")
+    console.log(user)
+    console.log(":")
+    console.log(pass)
+    console.log(user + ":" + pass)
+    console.log("mongodb://" + user + ":" + pass)
     exports.connect = async () => { return await mongoose.connect(
         final_url,
        {
