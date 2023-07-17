@@ -26,7 +26,7 @@ describe("Test the root path", () => {
     return request(app)
       .get("/")
       .then(response => {
-        expect(response.text).toBe('Hello World!');
+        expect(response.text).toBe('OK');
       });
   });
 });

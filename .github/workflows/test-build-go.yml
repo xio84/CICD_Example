@@ -22,12 +22,12 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Start MongoDB
-      uses: supercharge/mongodb-github-action@1.8.0
-      with:
-        mongodb-version: '6.0'
-        mongodb-username: supercharge
-        mongodb-password: secret
-        mongodb-db: supercharge
+        uses: supercharge/mongodb-github-action@1.8.0
+        with:
+          mongodb-version: '6.0'
+          mongodb-username: supercharge
+          mongodb-password: secret
+          mongodb-db: supercharge
 
       - name: Set up Go
         uses: actions/setup-go@v4
