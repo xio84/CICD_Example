@@ -8,7 +8,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-var template string = "mongodb://%s:%s@%s/%s?retryWrites=true&w=majority"
+var template string = "mongodb://%s:%s@%s/%s"
 
 func EnvMongoURI() string {
 	err := godotenv.Load()
@@ -19,13 +19,15 @@ func EnvMongoURI() string {
 	pass := os.Getenv("MONGODB_PASSWORD")
 	murl := os.Getenv("MONGODB_URL")
 	database := os.Getenv("MONGODB_DATABASE")
-	log.Println(username, pass, murl, database)
-	log.Println(template, "a", "b", "c", "d")
+	authdb := os.Getenv("MONGODB_AUTH_DATABASE")
 	if username == "" || pass == "" || murl == "" || database == "" {
 		log.Fatal("Error in loading env")
 	}
 
 	url := fmt.Sprintf(template, username, pass, murl, database)
+	if authdb != "" {
+		url += "?authSource=" + authdb
+	}
 	log.Println(url)
 
 	return url

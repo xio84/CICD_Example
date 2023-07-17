@@ -6,17 +6,16 @@ const user = env.MONGODB_USERNAME
 const pass = env.MONGODB_PASSWORD
 const url = env.MONGODB_URL
 const db = env.MONGODB_DATABASE
+const dbauth = env.MONGODB_AUTH_DATABASE
 
-const final_url = "mongodb://" + user + ":" + pass + "@" + url + "/" + db
+let final_url = "mongodb://" + user + ":" + pass + "@" + url + "/" + db
+
+if (dbauth) {
+    final_url += "?authSource=" + dbauth
+}
 
 if (user && pass && url && db) {
     console.log("Connecting on " + final_url)
-    console.log("mongodb://")
-    console.log(user)
-    console.log(":")
-    console.log(pass)
-    console.log(user + ":" + pass)
-    console.log("mongodb://" + user + ":" + pass)
     exports.connect = async () => { return await mongoose.connect(
         final_url,
        {
