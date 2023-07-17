@@ -38,7 +38,7 @@ describe("Blogs", () => {
     describe("/GET blog", () => {
       test("it should GET all the blogs", () => {
         return request(app)
-          .get("/api/blogs")
+          .get("/apis/nodeapp")
           .then((res) => {
             expect(res.statusCode).toBe(200)
             expect(res.body.data).toBeInstanceOf(Array)
@@ -55,7 +55,7 @@ describe("Blogs", () => {
             "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
         };
         request(app)
-        .post("/api/blogs")
+        .post("/apis/nodeapp")
         .send(blog)
         .end((err, res) => {
             expect(res.statusCode).toBe(200)
@@ -76,7 +76,7 @@ describe("Blogs", () => {
         blog.save()
         .then((blog) => {
         request(app)
-            .get("/api/blogs/" + blog.id)
+            .get("/apis/nodeapp/" + blog.id)
             .send(blog)
             .end((err, res) => {
                 expect(res.statusCode).toBe(200)
@@ -99,7 +99,7 @@ describe("Blogs", () => {
         .then((blog) => {
         console.log(blog.id);
         request(app)
-            .put("/api/blogs/" + blog.id)
+            .put("/apis/nodeapp/" + blog.id)
             .send({
             title: "The first blog was updated",
             body: "This is a blog post",
@@ -126,7 +126,7 @@ describe("Blogs", () => {
         blog.save()
         .then((blog) => {
         request(app)
-        .delete("/api/blogs/" + blog.id)
+        .delete("/apis/nodeapp/" + blog.id)
         .end((err, res) => {
             expect(res.statusCode).toBe(200)
             expect(res.body).toBeInstanceOf(Object)
