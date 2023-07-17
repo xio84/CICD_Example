@@ -6,6 +6,13 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  MONGODB_USERNAME: supercharge
+  MONGODB_PASSWORD: secret
+  MONGODB_URL: localhost
+  MONGODB_DATABASE: supercharge
+  MONGODB_AUTH_DATABASE: admin
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -14,6 +21,16 @@ jobs:
         working-directory: ./go-app
     steps:
       - uses: actions/checkout@v3
+
+      - run: env
+
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.8.0
+        with:
+          mongodb-version: '6.0'
+          mongodb-username: supercharge
+          mongodb-password: secret
+          mongodb-db: supercharge
 
       - name: Set up Go
         uses: actions/setup-go@v4

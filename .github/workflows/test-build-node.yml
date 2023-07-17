@@ -6,6 +6,13 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  MONGODB_USERNAME: supercharge
+  MONGODB_PASSWORD: secret
+  MONGODB_URL: localhost
+  MONGODB_DATABASE: supercharge
+  MONGODB_AUTH_DATABASE: admin
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -20,13 +27,24 @@ jobs:
     
     steps:
       - uses: actions/checkout@v3
+
+      - run: env
+
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.8.0
+        with:
+          mongodb-version: '6.0'
+          mongodb-username: supercharge
+          mongodb-password: secret
+          mongodb-db: supercharge
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
       - run: npm run build --if-present
-      - run: npm test
+      - run: npm run test
 
 
   # build_local:
