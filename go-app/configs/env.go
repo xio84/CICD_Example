@@ -19,11 +19,13 @@ func EnvMongoURI() string {
 	pass := os.Getenv("MONGODB_PASSWORD")
 	murl := os.Getenv("MONGODB_URL")
 	database := os.Getenv("MONGODB_DATABASE")
+	log.Println(username, pass, murl, database)
 	if username == "" || pass == "" || murl == "" || database == "" {
 		log.Fatal("Error in loading env")
 	}
 
 	url := fmt.Sprintf(template, username, pass, murl, database)
+	log.Println(url)
 
 	return url
 }

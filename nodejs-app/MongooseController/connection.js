@@ -7,10 +7,12 @@ const pass = env.MONGODB_PASSWORD
 const url = env.MONGODB_URL
 const db = env.MONGODB_DATABASE
 
+const final_url = "mongodb://" + user + ":" + pass + "@" + url + "/" + db
+
 if (user && pass && url && db) {
-    console.log("Connecting on " + `mongodb://${user}:${pass}@${url}/${db}`)
+    console.log("Connecting on " + final_url)
     exports.connect = async () => { return await mongoose.connect(
-        `mongodb://${user}:${pass}@${url}/${db}`,
+        final_url,
        {
            useNewUrlParser: true,
            useUnifiedTopology: true,
