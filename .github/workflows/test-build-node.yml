@@ -37,7 +37,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
       - run: npm run build --if-present
-      - run: MONGODB_USERNAME=user MONGODB_PASSWORD=password MONGODB_URL=localhost MONGODB_DATABASE=main npm test
+      - run: MONGODB_USERNAME=supercharge MONGODB_PASSWORD=secret MONGODB_URL=localhost MONGODB_DATABASE=supercharge npm run test
         env:
           MONGODB_USERNAME: supercharge
           MONGODB_PASSWORD: secret
